@@ -1,9 +1,9 @@
 package com.demo
 
-import com.demo.Util.anyNes
+import com.demo.Util._
 import eu.timepit.refined.auto._
 import eu.timepit.refined.types.string.NonEmptyString
-import org.mockito.ArgumentMatcher
+import org.mockito.{ArgumentMatcher, ArgumentMatchers}
 import org.mockito.matchers.AnyMatcher
 import org.mockito.scalatest.MockitoSugar
 import org.scalatest.Matchers
@@ -27,14 +27,17 @@ class HelloWorldTest extends AnyFlatSpecLike with MockitoSugar with Matchers {
 
   "refined" should "greet" in {
     val helloRefined = mock[RefinedHelloWorld]
-    when(helloRefined.greet(anyNes.any)) thenReturn "hello"
+    when(helloRefined.greet(star)) thenReturn "hello"
     helloRefined.greet("me") shouldBe "hello"
     helloRefined.greet("you") shouldBe "hello"
   }
+
+  implicit val defaultNes: NonEmptyString = NonEmptyString(" ")
 }
 
 object Util {
-  def anyNes: AnyMatcher[NonEmptyString] =new AnyMatcher[NonEmptyString]{
-    override def any: NonEmptyString = NonEmptyString(" ")
+  def star[T](implicit default: T): T = {
+    ArgumentMatchers.argThat((_: T) => true)
+    default
   }
 }
