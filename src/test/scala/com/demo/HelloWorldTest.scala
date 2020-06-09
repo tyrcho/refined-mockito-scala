@@ -16,8 +16,8 @@ class HelloWorldTest extends AnyFlatSpecLike with MockitoSugar with Matchers {
   }
 
   "refined" should "match and greet" in {
-    when(helloRefined.greet(NonEmptyString("me"))) thenReturn "hello"
-    when(helloRefined.greet(NonEmptyString("you"))) thenReturn "bye"
+    when(helloRefined.greet("me")) thenReturn "hello"
+    when(helloRefined.greet("you")) thenReturn "bye"
     helloRefined.greet("me") shouldBe "hello"
     helloRefined.greet("you") shouldBe "bye"
   }
